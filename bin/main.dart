@@ -20,9 +20,22 @@ void main(List<String> arguments) async {
           text = previousValue.toString() + element;
         }
       });
-      print(text);
+      //TODO: not only old method, try flesch
       var words = text.split(' ');
-      print(words.length);
+      var longWords = words.where((element) => element.length > 6);
+      var sentences = text.split(RegExp(r'\b((?!=|\.|\?|\!).)+(.)\b'));
+      stdout.writeln();
+      ansiTools.outColored('words: ${words.length}', 220, true);
+      ansiTools.outColored('long words: ${longWords.length}', 220, true);
+      ansiTools.outColored('sentences: ${sentences.length}', 220, true);
+      var sl = words.length / sentences.length;
+      var lw = (longWords.length / words.length) * 100;
+      var lix = sl + lw;
+      ansiTools.outColored('LIX: ${lix.toStringAsFixed(2)}', 220, true);
+      if (stdin.readLineSync() == 'exit') {
+        exit(0);
+      }
+      exit(1);
     }
   }
 }
